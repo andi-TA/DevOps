@@ -1,0 +1,4 @@
+srcs/website/react/node_modules
+srcs/website/.dockerignore
+srcs/.env
+secrets

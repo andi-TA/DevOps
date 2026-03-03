@@ -1,0 +1,21 @@
+services:
+  website:
+    build: ./website
+    environment:
+      - MODSEC_RULE_ENGINE=on
+      - SSL_PORT=8443
+    ports:
+      - "8443:8443"
+    secrets:
+      - ssl_key
+      - ssl_crt
+    volumes:
+      - ./website/react:/app
+    container_name: website
+    restart: unless-stopped
+  
+secrets:
+  ssl_key:
+    file: ../secrets/ssl.key
+  ssl_crt:
+    file: ../secrets/ssl.crt

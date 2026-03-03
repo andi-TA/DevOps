@@ -1,0 +1,17 @@
+server
+{
+    listen 8443 ssl;
+    server_name devops.atahiry-.mg;
+
+    ssl_protocols   TLSv1.2 TLSv1.3;
+    ssl_ciphers     HIGH:!aNULL:!MD5;
+
+    ssl_certificate /var/run/secrets/ssl_crt;
+    ssl_certificate_key /var/run/secrets/ssl_key;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+}
