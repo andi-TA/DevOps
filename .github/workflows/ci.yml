@@ -28,7 +28,7 @@ jobs:
       # install dependency
       - name: Install dependencies
         working-directory: srcs/website/react 
-        run: npm-ci
+        run: npm ci
       
       - name: lint
         working-directory: srcs/website/react
