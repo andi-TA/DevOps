@@ -2,8 +2,6 @@ FROM node:25-bookworm-slim As React
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y
-
 COPY react/package*.json ./
 
 RUN npm install
