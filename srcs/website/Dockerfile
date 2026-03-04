@@ -14,7 +14,10 @@ RUN npm run build
 
 FROM owasp/modsecurity-crs:nginx
 
+RUN mkdir -p /etc/nginx/modsec
+
 COPY --from=React /app/dist /usr/share/nginx/html
+COPY tools/main.conf /etc/nginx/modsec/main.conf
 COPY tools/default.conf.template /etc/nginx/templates/conf.d/default.conf.template
 
 EXPOSE 8443
