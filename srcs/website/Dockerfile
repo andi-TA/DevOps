@@ -18,6 +18,6 @@ COPY --from=React /app/dist /usr/share/nginx/html
 COPY tools/main.conf /etc/nginx/modsec/main.conf
 COPY tools/default.conf.template /etc/nginx/templates/conf.d/default.conf.template
 
-EXPOSE 8443
+EXPOSE 80
 
 CMD [ "nginx", "-g", "daemon off;" ]

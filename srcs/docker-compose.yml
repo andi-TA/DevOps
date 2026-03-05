@@ -3,9 +3,8 @@ services:
     build: ./website
     environment:
       - MODSEC_RULE_ENGINE=on
-      - SSL_PORT=8443
     ports:
-      - "8443:8443"
+      - "80:80"
     secrets:
       - ssl_key
       - ssl_crt
