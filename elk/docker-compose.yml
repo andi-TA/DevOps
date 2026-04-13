@@ -1,0 +1,65 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:8.16.0
+    labels:
+      - "family=elk"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - SubNetElk
+    container_name: elasticsearch
+    restart: unless-stopped
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-wolfi:8.16.0
+    labels:
+      - "family=elk"
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - SERVER_HOST=0.0.0.0
+    networks:
+      - SubNetElk
+    depends_on:
+      - elasticsearch
+    container_name: kibana
+    restart: unless-stopped
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat-wolfi:8.16.0
+    labels:
+      - "family=elk"
+    user: root
+    environment:
+      - BEAT_STRICT_PERMS=false
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=elastic
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - registry:/usr/share/filebeat/data:rw
+    depends_on:
+      - elasticsearch
+    networks:
+      - SubNetElk
+    container_name: filebeat
+    restart: unless-stopped
+
+networks:
+  SubNetElk:
+
+volumes:
+  esdata:
+    driver: local
+  registry:
+    driver: local
