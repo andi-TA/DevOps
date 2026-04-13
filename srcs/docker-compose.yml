@@ -1,10 +1,13 @@
 services:
   website:
     build: ./website
+    labels:
+      - "family=app"
     environment:
       - MODSEC_RULE_ENGINE=on
+      - SSL_PORT=8443
     ports:
-      - "80:80"
+      - "8443:8443"
     secrets:
       - ssl_key
       - ssl_crt
@@ -12,7 +15,7 @@ services:
       - ./website/react:/app
     container_name: website
     restart: unless-stopped
-  
+
 secrets:
   ssl_key:
     file: ../secrets/ssl.key
