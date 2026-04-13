@@ -21,7 +21,7 @@ elk:
 	@docker compose -f ${ELK_PATH} up --build -d
 
 ${NAME}:
-	@sh ${GENERATE_SSL}
+# 	@sh ${GENERATE_SSL}
 	@docker compose -f ${COMPOSE_PATH} up --build -d
 
 ps:
